@@ -1,0 +1,40 @@
+package com.kikatech.engine.ngram.task.obsolete
+
+import com.kikatech.engine.ngram.analyzer.obsolete.NGramOfSpecialLanguageAnalyzer
+import com.kikatech.engine.ngram.task.AnalyzeTask
+import com.kikatech.engine.ngram.util.SparkUtil
+
+/**
+  * Created by huminghe on 2017/8/31.
+  */
+object NGramOfSpecialLanguageTask extends AnalyzeTask {
+
+  def main(args: Array[String]) {
+
+    if (args.length != 15) {
+      logError("Usage: <job-name> " +
+        "<dict-1-unigram-path> " +
+        "<dict-2-unigram-path> " +
+        "<dict-3-unigram-path> " +
+        "<origin-unigram-path> " +
+        "<dict-1-bigram-path> " +
+        "<dict-2-bigram-path> " +
+        "<dict-3-bigram-path> " +
+        "<origin-bigram-path> " +
+        "<online-corpus-path> " +
+        "<twitter-corpus-path> " +
+        "<language> " +
+        "<unigram-output-path> " +
+        "<bigram-output-path> " +
+        "<partition-num>")
+      System.exit(1)
+    }
+
+    val jobName: String = args(0)
+    val sparkContext = SparkUtil.initSparkContext(this.getClass, jobName)
+    val analyzer = new NGramOfSpecialLanguageAnalyzer
+    analyzer.doAnalyze(sparkContext, args)
+
+  }
+
+}
